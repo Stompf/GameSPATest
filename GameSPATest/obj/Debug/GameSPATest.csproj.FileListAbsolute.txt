@@ -38,6 +38,15 @@ C:\Programmering\GameSPATest\GameSPATest\bin\System.Web.WebPages.Razor.xml
 C:\Programmering\GameSPATest\GameSPATest\bin\System.Web.Optimization.xml
 C:\Programmering\GameSPATest\GameSPATest\bin\TypeLite.pdb
 C:\Programmering\GameSPATest\GameSPATest\bin\TypeLite.Net4.pdb
-C:\Programmering\GameSPATest\GameSPATest\obj\Debug\GameSPATest.csprojResolveAssemblyReference.cache
 C:\Programmering\GameSPATest\GameSPATest\obj\Debug\SPATest.dll
 C:\Programmering\GameSPATest\GameSPATest\obj\Debug\SPATest.pdb
+C:\Programmering\GameSPATest\GameSPATest\bin\Microsoft.AspNet.SignalR.Core.dll
+C:\Programmering\GameSPATest\GameSPATest\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Programmering\GameSPATest\GameSPATest\bin\Microsoft.Owin.dll
+C:\Programmering\GameSPATest\GameSPATest\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Programmering\GameSPATest\GameSPATest\bin\Microsoft.Owin.Security.dll
+C:\Programmering\GameSPATest\GameSPATest\bin\Microsoft.AspNet.SignalR.Core.xml
+C:\Programmering\GameSPATest\GameSPATest\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+C:\Programmering\GameSPATest\GameSPATest\bin\Microsoft.Owin.xml
+C:\Programmering\GameSPATest\GameSPATest\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Programmering\GameSPATest\GameSPATest\bin\Microsoft.Owin.Security.xml
