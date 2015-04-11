@@ -1,0 +1,283 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>C:\Anton\Publish</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/Antlr3.Runtime.dll">
+      <publishTime>04/03/2015 17:13:46</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.dll">
+      <publishTime>04/03/2015 17:12:44</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.SqlServer.dll">
+      <publishTime>04/03/2015 17:12:44</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>04/03/2015 16:52:38</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>04/03/2015 17:12:25</publishTime>
+    </File>
+    <File Include="bin/Owin.dll">
+      <publishTime>04/03/2015 16:52:35</publishTime>
+    </File>
+    <File Include="bin/SPATest.dll">
+      <publishTime>04/05/2015 23:39:15</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.Formatting.dll">
+      <publishTime>04/03/2015 17:13:12</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>04/03/2015 17:12:54</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.dll">
+      <publishTime>04/03/2015 17:13:17</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.Owin.dll">
+      <publishTime>04/03/2015 17:14:39</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.WebHost.dll">
+      <publishTime>04/03/2015 17:13:22</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>04/03/2015 17:13:04</publishTime>
+    </File>
+    <File Include="bin/System.Web.Optimization.dll">
+      <publishTime>04/03/2015 16:52:38</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>04/03/2015 17:12:54</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>04/03/2015 17:12:54</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>04/03/2015 17:12:54</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>04/03/2015 17:12:54</publishTime>
+    </File>
+    <File Include="bin/TypeLite.dll">
+      <publishTime>04/05/2015 21:53:10</publishTime>
+    </File>
+    <File Include="bin/TypeLite.Net4.dll">
+      <publishTime>04/05/2015 21:53:10</publishTime>
+    </File>
+    <File Include="bin/WebGrease.dll">
+      <publishTime>04/03/2015 17:13:32</publishTime>
+    </File>
+    <File Include="Content/bootstrap-theme.css">
+      <publishTime>04/03/2015 17:13:56</publishTime>
+    </File>
+    <File Include="Content/bootstrap-theme.css.map">
+      <publishTime>04/03/2015 17:13:56</publishTime>
+    </File>
+    <File Include="Content/bootstrap-theme.min.css">
+      <publishTime>04/03/2015 17:13:56</publishTime>
+    </File>
+    <File Include="Content/bootstrap.css">
+      <publishTime>04/03/2015 17:13:56</publishTime>
+    </File>
+    <File Include="Content/bootstrap.css.map">
+      <publishTime>04/03/2015 17:13:56</publishTime>
+    </File>
+    <File Include="Content/bootstrap.min.css">
+      <publishTime>04/03/2015 17:13:56</publishTime>
+    </File>
+    <File Include="favicon.ico">
+      <publishTime>04/03/2015 16:52:28</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.eot">
+      <publishTime>04/03/2015 17:13:56</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.svg">
+      <publishTime>04/03/2015 17:13:56</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.ttf">
+      <publishTime>04/03/2015 17:13:56</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.woff">
+      <publishTime>04/03/2015 17:13:56</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.woff2">
+      <publishTime>04/03/2015 17:13:56</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>04/03/2015 16:52:28</publishTime>
+    </File>
+    <File Include="Icon.png">
+      <publishTime>04/03/2015 17:13:56</publishTime>
+    </File>
+    <File Include="Images/Background1.png">
+      <publishTime>04/05/2015 16:48:29</publishTime>
+    </File>
+    <File Include="Images/lifecare_logo.png">
+      <publishTime>04/05/2015 17:01:25</publishTime>
+    </File>
+    <File Include="Images/Sjukhus.jpg">
+      <publishTime>04/05/2015 16:48:09</publishTime>
+    </File>
+    <File Include="index.cshtml">
+      <publishTime>04/05/2015 23:14:50</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>04/05/2015 21:53:11</publishTime>
+    </File>
+    <File Include="Scripts/app/app.datamodel.js">
+      <publishTime>04/03/2015 18:06:55</publishTime>
+    </File>
+    <File Include="Scripts/app/app.viewmodel.js">
+      <publishTime>04/03/2015 17:46:36</publishTime>
+    </File>
+    <File Include="Scripts/app/appComponent.js">
+      <publishTime>04/05/2015 23:52:51</publishTime>
+    </File>
+    <File Include="Scripts/app/appComponent.js.map">
+      <publishTime>04/05/2015 23:37:24</publishTime>
+    </File>
+    <File Include="Scripts/app/appMain.js">
+      <publishTime>04/05/2015 23:52:51</publishTime>
+    </File>
+    <File Include="Scripts/app/appMain.js.map">
+      <publishTime>04/05/2015 23:37:24</publishTime>
+    </File>
+    <File Include="Scripts/app/common.js">
+      <publishTime>04/03/2015 16:52:28</publishTime>
+    </File>
+    <File Include="Scripts/app/home.viewmodel.js">
+      <publishTime>04/05/2015 22:30:22</publishTime>
+    </File>
+    <File Include="Scripts/app/home.viewmodel.js.map">
+      <publishTime>04/05/2015 22:30:22</publishTime>
+    </File>
+    <File Include="Scripts/app/home2.viewmodel.js">
+      <publishTime>04/03/2015 17:58:08</publishTime>
+    </File>
+    <File Include="Scripts/app/_run.js">
+      <publishTime>04/03/2015 16:52:28</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.js">
+      <publishTime>04/03/2015 17:13:56</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.min.js">
+      <publishTime>04/03/2015 17:13:56</publishTime>
+    </File>
+    <File Include="Scripts/Enums.js">
+      <publishTime>04/05/2015 23:52:51</publishTime>
+    </File>
+    <File Include="Scripts/Enums.js.map">
+      <publishTime>04/05/2015 23:37:24</publishTime>
+    </File>
+    <File Include="Scripts/jquery-2.1.3.js">
+      <publishTime>04/03/2015 17:12:33</publishTime>
+    </File>
+    <File Include="Scripts/jquery-2.1.3.min.js">
+      <publishTime>04/03/2015 17:12:33</publishTime>
+    </File>
+    <File Include="Scripts/jquery-2.1.3.min.map">
+      <publishTime>04/03/2015 17:12:33</publishTime>
+    </File>
+    <File Include="Scripts/knockout-3.3.0.debug.js">
+      <publishTime>04/03/2015 17:13:42</publishTime>
+    </File>
+    <File Include="Scripts/knockout-3.3.0.js">
+      <publishTime>04/03/2015 17:13:42</publishTime>
+    </File>
+    <File Include="Scripts/knockout.validation.js">
+      <publishTime>04/03/2015 17:14:41</publishTime>
+    </File>
+    <File Include="Scripts/knockout.validation.min.js">
+      <publishTime>04/03/2015 17:14:41</publishTime>
+    </File>
+    <File Include="Scripts/knockout.validation.min.js.map">
+      <publishTime>04/03/2015 17:14:41</publishTime>
+    </File>
+    <File Include="Scripts/Manager.ttinclude">
+      <publishTime>04/05/2015 21:53:10</publishTime>
+    </File>
+    <File Include="Scripts/modernizr-2.8.3.js">
+      <publishTime>04/03/2015 17:13:38</publishTime>
+    </File>
+    <File Include="Scripts/npm.js">
+      <publishTime>04/03/2015 17:13:56</publishTime>
+    </File>
+    <File Include="Scripts/r.js">
+      <publishTime>04/03/2015 17:52:59</publishTime>
+    </File>
+    <File Include="Scripts/require.config.js">
+      <publishTime>04/05/2015 23:52:51</publishTime>
+    </File>
+    <File Include="Scripts/require.config.js.map">
+      <publishTime>04/05/2015 23:37:24</publishTime>
+    </File>
+    <File Include="Scripts/require.js">
+      <publishTime>04/03/2015 17:52:59</publishTime>
+    </File>
+    <File Include="Scripts/respond.js">
+      <publishTime>04/03/2015 17:14:18</publishTime>
+    </File>
+    <File Include="Scripts/respond.matchmedia.addListener.js">
+      <publishTime>04/03/2015 17:14:18</publishTime>
+    </File>
+    <File Include="Scripts/respond.matchmedia.addListener.min.js">
+      <publishTime>04/03/2015 17:14:18</publishTime>
+    </File>
+    <File Include="Scripts/respond.min.js">
+      <publishTime>04/03/2015 17:14:18</publishTime>
+    </File>
+    <File Include="Scripts/sammy-0.7.5.js">
+      <publishTime>04/03/2015 17:14:58</publishTime>
+    </File>
+    <File Include="Scripts/sammy-0.7.5.min.js">
+      <publishTime>04/03/2015 17:14:58</publishTime>
+    </File>
+    <File Include="Scripts/services/services.js">
+      <publishTime>04/05/2015 23:52:51</publishTime>
+    </File>
+    <File Include="Scripts/services/services.js.map">
+      <publishTime>04/05/2015 23:37:24</publishTime>
+    </File>
+    <File Include="Scripts/viewModels/TietoEnkat.js">
+      <publishTime>04/05/2015 23:52:51</publishTime>
+    </File>
+    <File Include="Scripts/viewModels/TietoEnkat.js.map">
+      <publishTime>04/05/2015 23:37:24</publishTime>
+    </File>
+    <File Include="Scripts/_references.js">
+      <publishTime>04/05/2015 23:52:51</publishTime>
+    </File>
+    <File Include="Scripts/_references.js.map">
+      <publishTime>04/05/2015 23:37:24</publishTime>
+    </File>
+    <File Include="Views/Home/Index.cshtml">
+      <publishTime>04/05/2015 23:43:42</publishTime>
+    </File>
+    <File Include="Views/View/TietoEnkat.cshtml">
+      <publishTime>04/05/2015 21:40:29</publishTime>
+    </File>
+    <File Include="Views/View/TietoEnkat_Step01.cshtml">
+      <publishTime>04/05/2015 20:21:30</publishTime>
+    </File>
+    <File Include="Views/View/TietoEnkat_Step02.cshtml">
+      <publishTime>04/05/2015 21:32:08</publishTime>
+    </File>
+    <File Include="Views/View/TietoEnkat_Step03.cshtml">
+      <publishTime>04/05/2015 21:32:25</publishTime>
+    </File>
+    <File Include="Views/View/TietoEnkat_Step04.cshtml">
+      <publishTime>04/05/2015 21:37:55</publishTime>
+    </File>
+    <File Include="Views/Web.config">
+      <publishTime>04/03/2015 16:52:28</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>04/05/2015 23:26:07</publishTime>
+    </File>
+  </ItemGroup>
+</Project>
