@@ -21,7 +21,7 @@ define(["require", "exports", 'knockout', 'jquery', './appComponent'], function 
         };
         AppMain.prototype.handleSelectedAppComponentChanged = function (selectedComp) {
             var _this = this;
-            if (!selectedComp) {
+            if (selectedComp == null) {
                 return;
             }
             $('#selectedAppViewPort').empty();
@@ -33,9 +33,14 @@ define(["require", "exports", 'knockout', 'jquery', './appComponent'], function 
                 dataType: 'html'
             }).done(function (htmlresult) {
                 require(['../' + selectedComp.jsPath], function (foundModule) {
+                    if (foundModule == null) {
+                        $('#selectedAppViewPort').append('Could not load script with path: ' + selectedComp.jsPath);
+                        return;
+                    }
                     var viewModel = new foundModule(_this);
                     $('#selectedAppViewPort').append(htmlresult);
                     ko.applyBindings(viewModel, $('#selectedAppViewPort')[0]);
+                    //Activate after html is done
                     setTimeout(function () {
                         if (viewModel.activate) {
                             viewModel.activate();

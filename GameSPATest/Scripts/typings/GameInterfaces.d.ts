@@ -13,3 +13,8 @@
 declare module 'toastr' {
     export = toastr;
 }
+
+declare var signalr: any;
+declare module 'signalr.hubs' {
+    export = signalr;
+}

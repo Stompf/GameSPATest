@@ -5,6 +5,7 @@ import KeyboardGroup = require("./KeyboardGroup");
 import Rendering = require("./Rendering");
 import Team = require("./team");
 import toastr = require("toastr");
+import hubs = require('signalr.hubs');
 
 class Game {
 

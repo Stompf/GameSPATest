@@ -34,7 +34,7 @@ class AppMain {
 
 
     private handleSelectedAppComponentChanged(selectedComp: AppComponent) {
-        if (!selectedComp) {
+        if (selectedComp == null) {
             return;
         }
 
@@ -47,10 +47,17 @@ class AppMain {
             type: 'GET',
             dataType: 'html'
         }).done(htmlresult => {
-            require(['../' + selectedComp.jsPath], (foundModule) => {
+            require(['../' + selectedComp.jsPath],(foundModule) => {
+                if (foundModule == null) {
+                    $('#selectedAppViewPort').append('Could not load script with path: ' + selectedComp.jsPath);
+                    return;
+                }
+
                 var viewModel = new foundModule(this);
                 $('#selectedAppViewPort').append(htmlresult);
                 ko.applyBindings(viewModel, $('#selectedAppViewPort')[0]);
+
+                //Activate after html is done
                 setTimeout(() => {
                     if (viewModel.activate) {
                         viewModel.activate();

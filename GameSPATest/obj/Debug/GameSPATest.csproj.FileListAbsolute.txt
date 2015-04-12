@@ -50,3 +50,4 @@ C:\Programmering\GameSPATest\GameSPATest\bin\Microsoft.AspNet.SignalR.SystemWeb.
 C:\Programmering\GameSPATest\GameSPATest\bin\Microsoft.Owin.xml
 C:\Programmering\GameSPATest\GameSPATest\bin\Microsoft.Owin.Host.SystemWeb.xml
 C:\Programmering\GameSPATest\GameSPATest\bin\Microsoft.Owin.Security.xml
+C:\Programmering\GameSPATest\GameSPATest\obj\Debug\GameSPATest.csprojResolveAssemblyReference.cache
