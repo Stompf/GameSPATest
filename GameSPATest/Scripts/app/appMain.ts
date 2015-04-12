@@ -27,7 +27,7 @@ class AppMain {
     }
 
     loadComponents() {
-        var comp = new AppComponent('TietoEnkat', this.baseUrl + 'View/TietoEnkat', 'viewModels/TietoEnkat');
+        var comp = new AppComponent('Game', this.baseUrl + 'View/Game', 'viewModels/GameViewModel');
         this.appComponents.push(comp);
         this.selectedAppComponent(comp);
     }
@@ -52,7 +52,9 @@ class AppMain {
                 $('#selectedAppViewPort').append(htmlresult);
                 ko.applyBindings(viewModel, $('#selectedAppViewPort')[0]);
                 setTimeout(() => {
-    
+                    if (viewModel.activate) {
+                        viewModel.activate();
+                    }
                 }, 0);
             })
         }).fail(error => {

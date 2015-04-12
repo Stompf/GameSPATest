@@ -15,7 +15,7 @@ define(["require", "exports", 'knockout', 'jquery', './appComponent'], function 
             this.loadComponents();
         };
         AppMain.prototype.loadComponents = function () {
-            var comp = new AppComponent('TietoEnkat', this.baseUrl + 'View/TietoEnkat', 'viewModels/TietoEnkat');
+            var comp = new AppComponent('Game', this.baseUrl + 'View/Game', 'viewModels/GameViewModel');
             this.appComponents.push(comp);
             this.selectedAppComponent(comp);
         };
@@ -37,6 +37,9 @@ define(["require", "exports", 'knockout', 'jquery', './appComponent'], function 
                     $('#selectedAppViewPort').append(htmlresult);
                     ko.applyBindings(viewModel, $('#selectedAppViewPort')[0]);
                     setTimeout(function () {
+                        if (viewModel.activate) {
+                            viewModel.activate();
+                        }
                     }, 0);
                 });
             }).fail(function (error) {
