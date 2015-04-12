@@ -1,10 +1,8 @@
-﻿using System;
-using System.Web;
-using Microsoft.AspNet.SignalR;
+﻿using Microsoft.AspNet.SignalR;
 
 namespace SPATest.Hubs
 {
-    public class ChatHub : Hub
+	public class ChatHub : Hub
     {
         public void Send(string name, string message)
         {
