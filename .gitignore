@@ -244,3 +244,6 @@ GameSPATest/obj/Debug/SPATest.pdb
 GameSPATest/obj/Debug/GameSPATest.csproj.FileListAbsolute.txt
 GameSPATest/bin/SPATest.dll
 GameSPATest/bin/SPATest.pdb
+GameSPATest/Scripts/Game/game.js.map
+GameSPATest/Scripts/Game/game.js
+GameSPATest/Scripts/Game/game.js

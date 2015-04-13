@@ -56,6 +56,13 @@ class Game {
         }
     }
 
+	private searchForGame() {
+		var myHub = $.connection.myHub;
+		myHub.client.newGameStart = (message) => {
+			alert(message);
+		};
+	}
+
     private main = (tFrame: number) => {
         this.stopMain = window.requestAnimationFrame(this.main);
         var nextTick = this.lastTick + this.tickLength;
