@@ -20,11 +20,12 @@ declare module 'signalr.hubs' {
 }
 
 interface MyHubClient {
-	newGameStart(message: string): void;
+	newGameStart(message: string): void
+	endGame(message: string): void;
 }
 
 interface MyHubServer {
-	SearchForGame(): void;
+	searchForGame(): void;
 }
 
 interface MyHub {

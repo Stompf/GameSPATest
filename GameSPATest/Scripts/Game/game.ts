@@ -6,6 +6,9 @@ import Rendering = require("./Rendering");
 import Team = require("./team");
 import toastr = require("toastr");
 import hubs = require('signalr.hubs');
+import $ = require('jquery');
+
+hubs;
 
 class Game {
 
@@ -29,6 +32,7 @@ class Game {
         this.ctx = ctx;
         if (this.ctx != null) {
             this.initCanvas();
+			this.searchForGame();
         } else {
             alert("Cannot find canvas!");
         }
@@ -59,8 +63,17 @@ class Game {
 	private searchForGame() {
 		var myHub = $.connection.myHub;
 		myHub.client.newGameStart = (message) => {
-			alert(message);
+			console.log(message);
+			this.initPlayers();
 		};
+		myHub.client.endGame = (message) => {
+			console.log(message);
+			this.currentPlayers.removeAll();
+		};
+
+		$.connection.hub.start().done(() => {
+			myHub.server.searchForGame();
+		});
 	}
 
     private main = (tFrame: number) => {
@@ -129,7 +142,6 @@ class Game {
         });
 
         this.initMap();
-        this.initPlayers();
         this.main(performance.now());
 
         this.gameOn(true);
