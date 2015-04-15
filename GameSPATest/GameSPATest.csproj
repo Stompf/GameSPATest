@@ -171,7 +171,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Controllers\ViewController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -180,6 +179,7 @@
     <Compile Include="Hubs\MyHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerCode\Game.cs" />
+    <Compile Include="ServerCode\GameEntities.cs" />
     <Compile Include="ServerCode\Matchmaking.cs" />
     <Compile Include="ServerCode\Player.cs" />
     <Compile Include="Startup.cs" />
@@ -209,6 +209,10 @@
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\toastr.js" />
     <Content Include="Scripts\toastr.min.js" />
+    <Content Include="Scripts\GameEntitesInterfaces.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GameEntitesInterfaces.d.ts</LastGenOutput>
+    </Content>
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
@@ -232,14 +236,15 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\sammy-0.7.5.js" />
     <Content Include="Scripts\sammy-0.7.5.min.js" />
-    <Content Include="Scripts\TypeLite.Net4.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>TypeLite.Net4.d.ts</LastGenOutput>
-    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Chat.cshtml" />
     <Content Include="Views\View\Game.cshtml" />
+    <Content Include="Scripts\Manager.ttinclude" />
+    <TypeScriptCompile Include="Scripts\common\Utils.ts" />
+    <TypeScriptCompile Include="Scripts\Enums.ts">
+      <DependentUpon>GameEntitesInterfaces.tt</DependentUpon>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="Scripts\Game\boundingBox.ts" />
     <TypeScriptCompile Include="Scripts\Game\game.ts" />
     <TypeScriptCompile Include="Scripts\Game\keyboardGroup.ts" />
@@ -249,12 +254,16 @@
     <TypeScriptCompile Include="Scripts\Game\Rendering.ts" />
     <TypeScriptCompile Include="Scripts\Game\team.ts" />
     <TypeScriptCompile Include="Scripts\Game\toastrOptions.ts" />
+    <TypeScriptCompile Include="Scripts\GameEntitesInterfaces.d.ts">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GameEntitesInterfaces.tt</DependentUpon>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="Scripts\typings\GameInterfaces.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\moment\moment.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\signalr\signalr.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\toastr\toastr.d.ts" />
     <TypeScriptCompile Include="Scripts\viewModels\GameVIewModel.ts" />
-    <TypeScriptCompile Include="Scripts\_references.ts" />
     <Content Include="Views\Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -269,7 +278,6 @@
     </Content>
     <Content Include="Scripts\jquery-2.1.3.min.map" />
     <Content Include="Scripts\knockout.validation.min.js.map" />
-    <Content Include="Scripts\Manager.ttinclude" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -282,16 +290,8 @@
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\app\appComponent.ts" />
     <TypeScriptCompile Include="Scripts\app\appMain.ts" />
-    <TypeScriptCompile Include="Scripts\Enums.ts">
-      <DependentUpon>TypeLite.Net4.tt</DependentUpon>
-    </TypeScriptCompile>
     <TypeScriptCompile Include="Scripts\require.config.ts" />
     <TypeScriptCompile Include="Scripts\services\services.ts" />
-    <TypeScriptCompile Include="Scripts\TypeLite.Net4.d.ts">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TypeLite.Net4.tt</DependentUpon>
-    </TypeScriptCompile>
     <TypeScriptCompile Include="Scripts\typings\bootstrap\bootstrap.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\jquery\jquery.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\knockout.validation\knockout.validation.d.ts" />

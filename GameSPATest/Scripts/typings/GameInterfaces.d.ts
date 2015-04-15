@@ -20,7 +20,7 @@ declare module 'signalr.hubs' {
 }
 
 interface MyHubClient {
-	newGameStart(message: string): void
+    newGameStart(obj: SPATest.ServerCode.NewGameStartEntity): void
 	endGame(message: string): void;
 }
 

@@ -28,7 +28,7 @@ namespace SPATest.ServerCode
 
 		public void StartGame()
 		{
-			GroupManager.newGameStart("start - " + GroupReference);
+			GroupManager.newGameStart(new NewGameStartEntity() { startTime = DateTime.Now.AddSeconds(5) });
 		}
 
 		public void EndGame(MyHub myHub)

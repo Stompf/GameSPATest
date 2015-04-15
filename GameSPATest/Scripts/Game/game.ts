@@ -7,6 +7,8 @@ import Team = require("./team");
 import toastr = require("toastr");
 import hubs = require('signalr.hubs');
 import $ = require('jquery');
+import utils = require('../common/Utils');
+import moment = require('moment');
 
 hubs;
 
@@ -62,9 +64,13 @@ class Game {
 
 	private searchForGame() {
 		var myHub = $.connection.myHub;
-		myHub.client.newGameStart = (message) => {
-			console.log(message);
-			this.initPlayers();
+        myHub.client.newGameStart = (message) => {
+            var gameStartInSeconds = moment.duration(moment(utils.getFormatedDateWithTime(message.startTime)).diff(moment())).asSeconds();
+            toastr.info('Game start in ' + gameStartInSeconds + ' seconds', 'Game');
+
+            setTimeout(() => {
+                this.initPlayers();
+            }, gameStartInSeconds * 1000);
 		};
 		myHub.client.endGame = (message) => {
 			console.log(message);
