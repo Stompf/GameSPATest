@@ -5,5 +5,12 @@ module Utils {
         return moment(moment(dateString).format('YYYY-MM-DD HH:mm:ss')).toDate();
     }
 
+    export function appendNewLine(koString: KnockoutObservable<string>, newLine: string, includeTimeStamp: boolean = true) {
+        if (includeTimeStamp) {
+            newLine = (moment().format('HH:mm:ss') + ' - ' + newLine);
+            koString(newLine + '\n' + koString());
+        }
+    }
+
 }
 export = Utils;

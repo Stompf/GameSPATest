@@ -9,6 +9,7 @@ namespace SPATest.ServerCode
 	{
 		public Game currentGame { get; set; }
 		public string ConnectionId { get; }
+        
 
 		public Player(string connectionId)
 		{

@@ -18,21 +18,21 @@ define(["require", "exports", "./boundingBox", "./player"], function (require, e
             teamRedPosition = this.teamRedStartPosition;
         };
         Map.prototype.isInBounds = function (position, objectSize) {
-            return position.X >= 0 && position.X <= (this.size.width - objectSize.width) && position.Y >= 0 && position.Y <= (this.size.height - objectSize.height);
+            return position.x >= 0 && position.x <= (this.size.width - objectSize.width) && position.y >= 0 && position.y <= (this.size.height - objectSize.height);
         };
         Map.prototype.renderZones = function (ctx) {
             ctx.fillStyle = "red";
-            ctx.fillRect(this.teamRedZone.topLeft.X, this.teamRedZone.topLeft.Y, this.teamRedZone.bottomRight.X, this.teamRedZone.bottomRight.Y);
+            ctx.fillRect(this.teamRedZone.topLeft.x, this.teamRedZone.topLeft.y, this.teamRedZone.bottomRight.x, this.teamRedZone.bottomRight.y);
             ctx.fillStyle = "blue";
-            ctx.fillRect(this.teamBlueZone.topLeft.X, this.teamBlueZone.topLeft.Y, this.teamBlueZone.bottomRight.X, this.teamBlueZone.bottomRight.Y);
+            ctx.fillRect(this.teamBlueZone.topLeft.x, this.teamBlueZone.topLeft.y, this.teamBlueZone.bottomRight.x, this.teamBlueZone.bottomRight.y);
         };
         Map.prototype.initStartPositions = function () {
-            this.teamBlueStartPosition = { X: this.size.width - this.startPositionPadding, Y: this.size.height / 2 };
-            this.teamRedStartPosition = { X: this.startPositionPadding - Player.StartSize.width, Y: this.size.height / 2 };
+            this.teamBlueStartPosition = { x: this.size.width - this.startPositionPadding, y: this.size.height / 2 };
+            this.teamRedStartPosition = { x: this.startPositionPadding - Player.StartSize.width, y: this.size.height / 2 };
         };
         Map.prototype.initZones = function () {
-            this.teamRedZone = new BoundingBox({ X: 0, Y: 0 }, { X: this.zoneWidth, Y: this.size.height });
-            this.teamBlueZone = new BoundingBox({ X: this.size.width - this.zoneWidth, Y: 0 }, { X: this.size.width, Y: this.size.height });
+            this.teamRedZone = new BoundingBox({ x: 0, y: 0 }, { x: this.zoneWidth, y: this.size.height });
+            this.teamBlueZone = new BoundingBox({ x: this.size.width - this.zoneWidth, y: 0 }, { x: this.size.width, y: this.size.height });
         };
         return Map;
     })();

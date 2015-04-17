@@ -25,11 +25,14 @@ class Game {
     lastTick: number = performance.now();
     tickLength: number = 50;
 
-    constructor(ctx: CanvasRenderingContext2D) {
+    private textArea: KnockoutObservable<string>;
+
+    constructor(ctx: CanvasRenderingContext2D, textArea: KnockoutObservable<string>) {
         this.currentPlayers = ko.observableArray<Player>();
         this.currentMap = ko.observable<Map>();
         this.gameOn = ko.observable<boolean>();
         this.lastRender = this.lastTick;
+        this.textArea = textArea;
 
         this.ctx = ctx;
         if (this.ctx != null) {
@@ -78,7 +81,8 @@ class Game {
 		};
 
 		$.connection.hub.start().done(() => {
-			myHub.server.searchForGame();
+            myHub.server.searchForGame();
+            utils.appendNewLine(this.textArea, 'Searching for game...');
 		});
 	}
 
@@ -91,7 +95,7 @@ class Game {
             var timeSinceTick = tFrame - this.lastTick;
             numTicks = Math.floor(timeSinceTick / this.tickLength);
         }
-        // console.log("num: " + numTicks);
+
         this.queueUpdates(numTicks);
         this.redrawCanvas(tFrame);
         this.lastRender = tFrame;
@@ -109,16 +113,18 @@ class Game {
             return;
         }
 
-        var players = this.currentPlayers();
+        var localPlayers = this.currentPlayers();
         var map = this.currentMap();
 
-        for (var i = 0; i < players.length; i++) {
-            players[i].update(this.ctx, map, this.tickLength);
-            var victory = players[i].checkWinningCondition(map);
+        for (var i = 0; i < localPlayers.length; i++) {
+            localPlayers[i].update(this.ctx, map, this.tickLength);
+           
+            
+            /*var victory = localPlayers[i].checkWinningCondition(map);
             if (victory) {
                 window.cancelAnimationFrame(this.stopMain);
                 this.gameOn(false);
-                toastr.success(players[i].victoryMessage() + ' - New game in 5 secs');
+                toastr.success(localPlayers[i].victoryMessage() + ' - New game in 5 secs');
 
                 setTimeout(() => {
                     this.initPlayers();
@@ -127,7 +133,7 @@ class Game {
                 }, 5000);
 
                 break;
-            }
+            }*/
         }
     }
 
@@ -151,10 +157,11 @@ class Game {
         this.main(performance.now());
 
         this.gameOn(true);
+        utils.appendNewLine(this.textArea, 'Canvas init done');
     }
 
     private initMap() {
-        var size = <IGame.Size>{
+        var size = <GameEntites.Size>{
             height: this.ctx.canvas.height,
             width: this.ctx.canvas.width
         };
@@ -163,10 +170,10 @@ class Game {
 
     private initPlayers() {
         //Player 1
-        var player1 = new Player(this.currentMap().teamBlueStartPosition, KeyboardGroup.WSAD, Team.TeamEnum.BLUE);
+        var player1 = new Player(this.currentMap().teamBlueStartPosition, KeyboardGroup.WSAD, Team.TeamEnum.BLUE, true);
 
         //Player 2
-        var player2 = new Player(this.currentMap().teamRedStartPosition, KeyboardGroup.Arrows, Team.TeamEnum.RED);
+        var player2 = new Player(this.currentMap().teamRedStartPosition, KeyboardGroup.Arrows, Team.TeamEnum.RED, true);
 
         this.currentPlayers([player1, player2]);
     }

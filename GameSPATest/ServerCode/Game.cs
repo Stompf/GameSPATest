@@ -24,11 +24,13 @@ namespace SPATest.ServerCode
 			myHub.Groups.Add(player1.ConnectionId, GroupReference);
 			myHub.Groups.Add(player2.ConnectionId, GroupReference);
 			GroupManager = myHub.Clients.Group(GroupReference);
+            
+            //myHub.Clients.Client(this.pl)
         }
 
 		public void StartGame()
 		{
-			GroupManager.newGameStart(new NewGameStartEntity() { startTime = DateTime.Now.AddSeconds(5) });
+			GroupManager.newGameStart(new NewGameStartEntity() { StartTime = DateTime.Now.AddSeconds(5) });
 		}
 
 		public void EndGame(MyHub myHub)

@@ -3,18 +3,18 @@ import Player = require("./player");
 
 class Map {
 
-    size: IGame.Size;
+    size: GameEntites.Size;
 
     teamRedZone: BoundingBox;
-    teamRedStartPosition: IGame.Vector2D;
+    teamRedStartPosition: GameEntites.Vector2D;
 
     teamBlueZone: BoundingBox;
-    teamBlueStartPosition: IGame.Vector2D;
+    teamBlueStartPosition: GameEntites.Vector2D;
 
     zoneWidth: number = 10;
     startPositionPadding: number = 30;
 
-    constructor(size: IGame.Size) {
+    constructor(size: GameEntites.Size) {
         this.size = size;
         this.initZones();
         this.initStartPositions();
@@ -24,41 +24,41 @@ class Map {
         this.renderZones(ctx);
     }
 
-    isValidPosition(position: IGame.Vector2D, objectSize: IGame.Size) {
+    isValidPosition(position: GameEntites.Vector2D, objectSize: GameEntites.Size) {
         return this.isInBounds(position, objectSize);
     }
 
-    resetStartPositions(teamBluePosition: IGame.Vector2D, teamRedPosition: IGame.Vector2D) {
+    resetStartPositions(teamBluePosition: GameEntites.Vector2D, teamRedPosition: GameEntites.Vector2D) {
         teamBluePosition = this.teamBlueStartPosition;
         teamRedPosition = this.teamRedStartPosition;
     } 
 
-    private isInBounds(position: IGame.Vector2D, objectSize: IGame.Size) {
-        return position.X >= 0 &&
-            position.X <= (this.size.width - objectSize.width) &&
-            position.Y >= 0 && position.Y <= (this.size.height - objectSize.height) ;
+    private isInBounds(position: GameEntites.Vector2D, objectSize: GameEntites.Size) {
+        return position.x >= 0 &&
+            position.x <= (this.size.width - objectSize.width) &&
+            position.y >= 0 && position.y <= (this.size.height - objectSize.height) ;
     }
 
     private renderZones(ctx: CanvasRenderingContext2D) {
         ctx.fillStyle = "red";
-        ctx.fillRect(this.teamRedZone.topLeft.X, this.teamRedZone.topLeft.Y, this.teamRedZone.bottomRight.X, this.teamRedZone.bottomRight.Y);
+        ctx.fillRect(this.teamRedZone.topLeft.x, this.teamRedZone.topLeft.y, this.teamRedZone.bottomRight.x, this.teamRedZone.bottomRight.y);
 
         ctx.fillStyle = "blue";
-        ctx.fillRect(this.teamBlueZone.topLeft.X, this.teamBlueZone.topLeft.Y, this.teamBlueZone.bottomRight.X, this.teamBlueZone.bottomRight.Y);
+        ctx.fillRect(this.teamBlueZone.topLeft.x, this.teamBlueZone.topLeft.y, this.teamBlueZone.bottomRight.x, this.teamBlueZone.bottomRight.y);
 
     }
 
     private initStartPositions() {
-        this.teamBlueStartPosition = <IGame.Vector2D> { X: this.size.width - this.startPositionPadding, Y: this.size.height / 2 };
-        this.teamRedStartPosition = <IGame.Vector2D> { X: this.startPositionPadding - Player.StartSize.width, Y: this.size.height / 2 }; 
+        this.teamBlueStartPosition = <GameEntites.Vector2D> { x: this.size.width - this.startPositionPadding, y: this.size.height / 2 };
+        this.teamRedStartPosition = <GameEntites.Vector2D> { x: this.startPositionPadding - Player.StartSize.width, y: this.size.height / 2 }; 
     }
 
     private initZones() {
-        this.teamRedZone = new BoundingBox(<IGame.Vector2D> { X: 0, Y: 0 },
-                                           <IGame.Vector2D> { X: this.zoneWidth, Y: this.size.height});
+        this.teamRedZone = new BoundingBox(<GameEntites.Vector2D> { x: 0, y: 0 },
+                                           <GameEntites.Vector2D> { x: this.zoneWidth, y: this.size.height});
 
-        this.teamBlueZone = new BoundingBox(<IGame.Vector2D> { X: this.size.width - this.zoneWidth, Y: 0 },
-                                            <IGame.Vector2D> { X: this.size.width, Y: this.size.height });
+        this.teamBlueZone = new BoundingBox(<GameEntites.Vector2D> { x: this.size.width - this.zoneWidth, y: 0 },
+                                            <GameEntites.Vector2D> { x: this.size.width, y: this.size.height });
     }
 }
 export = Map;

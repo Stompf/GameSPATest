@@ -5,7 +5,7 @@ define(["require", "exports"], function (require, exports) {
             this.bottomRight = bottomRight;
         }
         BoundingBox.prototype.isInBounds = function (position) {
-            return position.X >= this.topLeft.X && position.X <= this.bottomRight.X && position.Y >= this.topLeft.Y && position.Y <= this.bottomRight.Y;
+            return position.x >= this.topLeft.x && position.x <= this.bottomRight.x && position.y >= this.topLeft.y && position.y <= this.bottomRight.y;
         };
         return BoundingBox;
     })();

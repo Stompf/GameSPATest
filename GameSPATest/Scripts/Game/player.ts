@@ -5,73 +5,76 @@ import Team = require("./team");
 
 class Player {
 
-    static StartSize = <IGame.Size> { height: 10, width: 10 };
+    static StartSize = <GameEntites.Size> { height: 10, width: 10 };
 
-    currentPosition: IGame.Vector2D;
+    currentPosition: GameEntites.Vector2D;
     color: string;
     team: Team.TeamEnum;
-    size: IGame.Size;
+    size: GameEntites.Size;
     keyboardStates: KeyboardStates;
 
+    isLocalPlayer: boolean;
     speed: number = 250;
-    
-    constructor(startPos: IGame.Vector2D, keyboardGroup: KeyboardGroup, team: Team.TeamEnum) {
+
+    constructor(startPos: GameEntites.Vector2D, keyboardGroup: KeyboardGroup, team: Team.TeamEnum, isLocalPlayer: boolean) {
         this.currentPosition = startPos;
         this.team = team;
         this.color = this.setColor(team);
         this.size = Player.StartSize;
+        this.isLocalPlayer = isLocalPlayer;
 
         this.keyboardStates = new KeyboardStates(keyboardGroup);
     }
 
     draw(ctx: CanvasRenderingContext2D, deltaTick: number) {
         ctx.fillStyle = this.color;
-        ctx.fillRect(this.currentPosition.X, this.currentPosition.Y, this.size.width, this.size.height);
+        ctx.fillRect(this.currentPosition.x, this.currentPosition.y, this.size.width, this.size.height);
     }
 
     update(ctx: CanvasRenderingContext2D, map: Map, tickLenght: number) {
         var newPosition = this.currentPosition;
 
-        if (this.keyboardStates.isUpKeyDown) {
-            var newPos = <IGame.Vector2D> {
-                X: newPosition.X,
-                Y: newPosition.Y - (this.speed / tickLenght)
-            };
-            if (map.isValidPosition(newPos, this.size)) {
-                newPosition = newPos;
+        if (this.isLocalPlayer) {
+            if (this.keyboardStates.isUpKeyDown) {
+                var newPos = <GameEntites.Vector2D> {
+                    x: newPosition.x,
+                    y: newPosition.y - (this.speed / tickLenght)
+                };
+                if (map.isValidPosition(newPos, this.size)) {
+                    newPosition = newPos;
+                }
+            }
+
+            if (this.keyboardStates.isDownKeyDown) {
+                var newPos = <GameEntites.Vector2D> {
+                    x: newPosition.x,
+                    y: newPosition.y + (this.speed / tickLenght)
+                };
+                if (map.isValidPosition(newPos, this.size)) {
+                    newPosition = newPos;
+                }
+            }
+
+            if (this.keyboardStates.isLeftKeyDown) {
+                var newPos = <GameEntites.Vector2D> {
+                    x: newPosition.x - (this.speed / tickLenght),
+                    y: newPosition.y
+                };
+                if (map.isValidPosition(newPos, this.size)) {
+                    newPosition = newPos;
+                }
+            }
+
+            if (this.keyboardStates.isRightKeyDown) {
+                var newPos = <GameEntites.Vector2D> {
+                    x: newPosition.x + (this.speed / tickLenght),
+                    y: newPosition.y
+                };
+                if (map.isValidPosition(newPos, this.size)) {
+                    newPosition = newPos;
+                }
             }
         }
-
-        if (this.keyboardStates.isDownKeyDown) {
-            var newPos = <IGame.Vector2D> {
-                X: newPosition.X,
-                Y: newPosition.Y + (this.speed / tickLenght)
-            };
-            if (map.isValidPosition(newPos, this.size)) {
-                newPosition = newPos;
-            }
-        }
-
-        if (this.keyboardStates.isLeftKeyDown) {
-            var newPos = <IGame.Vector2D> {
-                X: newPosition.X - (this.speed / tickLenght),
-                Y: newPosition.Y
-            };
-            if (map.isValidPosition(newPos, this.size)) {
-                newPosition = newPos;
-            }
-        }
-
-        if (this.keyboardStates.isRightKeyDown) {
-            var newPos = <IGame.Vector2D> {
-                X: newPosition.X + (this.speed / tickLenght),
-                Y: newPosition.Y
-            };
-            if (map.isValidPosition(newPos, this.size)) {
-                newPosition = newPos;
-            }
-        }
-
         this.currentPosition = newPosition;
     }
 

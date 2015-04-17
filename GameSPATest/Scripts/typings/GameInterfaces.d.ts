@@ -1,16 +1,4 @@
-﻿declare module IGame {
-    interface Vector2D {
-        X: number;
-        Y: number;
-    }
-
-    interface Size {
-        height: number;
-        width: number;
-    }
-}
-
-declare module 'toastr' {
+﻿declare module 'toastr' {
     export = toastr;
 }
 
@@ -20,7 +8,7 @@ declare module 'signalr.hubs' {
 }
 
 interface MyHubClient {
-    newGameStart(obj: SPATest.ServerCode.NewGameStartEntity): void
+    newGameStart(obj: GameEntites.NewGameStartEntity): void
 	endGame(message: string): void;
 }
 

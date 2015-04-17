@@ -259,6 +259,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>GameEntitesInterfaces.tt</DependentUpon>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="Scripts\typings\GameEntites.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\GameInterfaces.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\moment\moment.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\signalr\signalr.d.ts" />
