@@ -1,18 +1,24 @@
 ﻿module Team {
-    export enum TeamEnum {
-        RED,
-        BLUE
-    }
-
-    export function toString(team: TeamEnum) {
+    export function toString(team: GameEntites.Team) {
         switch (team) {
-            case TeamEnum.RED:
+            case GameEntites.Team.RED:
                 return "Team Red";
-            case TeamEnum.BLUE:
+            case GameEntites.Team.BLUE:
                 return "Team Blue";
             default:
                 return "undefined";
         }
     }
+
+	export function serverToGameEntity(team: SPATest.ServerCode.Team) {
+		switch (team) {
+            case SPATest.ServerCode.Team.RED:
+                return GameEntites.Team.RED;
+            case SPATest.ServerCode.Team.BLUE:
+                return GameEntites.Team.BLUE;
+            default:
+                return GameEntites.Team.RED;
+        }
+	}
 }
 export = Team;

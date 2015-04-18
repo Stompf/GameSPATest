@@ -35,6 +35,13 @@ class KeyboardStates {
         return this.handleKeycodes(keycode, false);
     }
 
+	resetAll() {
+		this.isUpKeyDown = false;
+		this.isDownKeyDown = false;
+		this.isLeftKeyDown = false;
+		this.isRightKeyDown = false;
+	}
+
     private setKeyboard(keyboardGroup: KeyboardGroup) {
         switch (keyboardGroup) {
             case KeyboardGroup.Arrows:

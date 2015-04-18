@@ -1,4 +1,4 @@
-define(["require", "exports", "./boundingBox", "./player"], function (require, exports, BoundingBox, Player) {
+define(["require", "exports", "./boundingBox", "./ClientPlayer"], function (require, exports, BoundingBox, ClientPlayer) {
     var Map = (function () {
         function Map(size) {
             this.zoneWidth = 10;
@@ -28,7 +28,7 @@ define(["require", "exports", "./boundingBox", "./player"], function (require, e
         };
         Map.prototype.initStartPositions = function () {
             this.teamBlueStartPosition = { x: this.size.width - this.startPositionPadding, y: this.size.height / 2 };
-            this.teamRedStartPosition = { x: this.startPositionPadding - Player.StartSize.width, y: this.size.height / 2 };
+            this.teamRedStartPosition = { x: this.startPositionPadding - ClientPlayer.StartSize.width, y: this.size.height / 2 };
         };
         Map.prototype.initZones = function () {
             this.teamRedZone = new BoundingBox({ x: 0, y: 0 }, { x: this.zoneWidth, y: this.size.height });

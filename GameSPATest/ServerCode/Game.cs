@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using SPATest.Hubs;
 
 namespace SPATest.ServerCode
@@ -19,19 +16,21 @@ namespace SPATest.ServerCode
 		public Game(Player player1, Player player2, MyHub myHub)
 		{
 			GroupReference = player1.ConnectionId + "-" + player2.ConnectionId + DateTime.Now.ToString();
+			CurrentMap = new Map();
+
 			this.player1 = player1;
 			this.player1.GameGroupID = GroupReference;
+			this.player1.Team = Team.RED;
+			this.player1.Position = CurrentMap.TeamBlueStartPosition;
 
 			this.player2 = player2;
+			this.player2.Team = Team.BLUE;
 			this.player2.GameGroupID = GroupReference;
-
-			CurrentMap = new Map();
+			this.player2.Position = CurrentMap.TeamRedStartPosition;
 
 			myHub.Groups.Add(player1.ConnectionId, GroupReference);
 			myHub.Groups.Add(player2.ConnectionId, GroupReference);
 			GroupManager = myHub.Clients.Group(GroupReference);
-
-			InitGame();
 		}
 
 		public void InitGame()
@@ -44,7 +43,7 @@ namespace SPATest.ServerCode
 			player.IsReady = true;
 			if (player1.IsReady && player2.IsReady)
 			{
-				GroupManager.newGameStart(new NewGameStartEntity() { StartTime = DateTime.Now.AddSeconds(5) });
+				StartGame();
 			}
 		}
 

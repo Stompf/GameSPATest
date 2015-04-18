@@ -16,19 +16,23 @@ declare module SPATest.ServerCode {
 	}
 	interface Map {
 		mapSize: SPATest.ServerCode.Size;
+		teamBlueStartPosition: SPATest.ServerCode.Vector2D;
+		teamRedStartPosition: SPATest.ServerCode.Vector2D;
 	}
 	interface Size {
 		height: number;
 		width: number;
 	}
+	interface Vector2D {
+		x: number;
+		y: number;
+	}
 	interface Player {
 		connectionId: string;
 		position: SPATest.ServerCode.Vector2D;
 		color: string;
-	}
-	interface Vector2D {
-		x: number;
-		y: number;
+		team: SPATest.ServerCode.Team;
+		startSize: SPATest.ServerCode.Size;
 	}
 }
 

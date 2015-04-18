@@ -3,36 +3,40 @@ import KeyboardGroup = require("./KeyboardGroup");
 import Map = require("./map");
 import Team = require("./team");
 
-class Player {
+class ClientPlayer {
 
-    static StartSize = <GameEntites.Size> { height: 10, width: 10 };
+    static StartSize;
 
-    currentPosition: GameEntites.Vector2D;
+    position: GameEntites.Vector2D;
     color: string;
-    team: Team.TeamEnum;
+    team: GameEntites.Team;
     size: GameEntites.Size;
     keyboardStates: KeyboardStates;
+	connectionId: string;
 
     isLocalPlayer: boolean;
     speed: number = 250;
 
-    constructor(startPos: GameEntites.Vector2D, keyboardGroup: KeyboardGroup, team: Team.TeamEnum, isLocalPlayer: boolean) {
-        this.currentPosition = startPos;
-        this.team = team;
-        this.color = this.setColor(team);
-        this.size = Player.StartSize;
+    constructor(serverPlayer: GameEntites.Player, keyboardGroup: KeyboardGroup, isLocalPlayer: boolean) {
+        this.position = serverPlayer.position;
+        this.team = Team.serverToGameEntity(serverPlayer.team);
+        this.color = this.setColor(this.team);       
         this.isLocalPlayer = isLocalPlayer;
+		serverPlayer.startSize ? ClientPlayer.StartSize = serverPlayer.startSize : ClientPlayer.StartSize = <GameEntites.Size> { height: 10, width: 10 };
+		this.size = ClientPlayer.StartSize;
 
-        this.keyboardStates = new KeyboardStates(keyboardGroup);
+		if (keyboardGroup != null && isLocalPlayer) {
+			this.keyboardStates = new KeyboardStates(keyboardGroup);
+		}       
     }
 
     draw(ctx: CanvasRenderingContext2D, deltaTick: number) {
         ctx.fillStyle = this.color;
-        ctx.fillRect(this.currentPosition.x, this.currentPosition.y, this.size.width, this.size.height);
+        ctx.fillRect(this.position.x, this.position.y, this.size.width, this.size.height);
     }
 
     update(ctx: CanvasRenderingContext2D, map: Map, tickLenght: number) {
-        var newPosition = this.currentPosition;
+        var newPosition = this.position;
 
         if (this.isLocalPlayer) {
             if (this.keyboardStates.isUpKeyDown) {
@@ -75,15 +79,15 @@ class Player {
                 }
             }
         }
-        this.currentPosition = newPosition;
+        this.position = newPosition;
     }
 
     checkWinningCondition(map: Map) {
         switch (this.team) {
-            case Team.TeamEnum.BLUE:
-                return map.teamRedZone.isInBounds(this.currentPosition);
-            case Team.TeamEnum.RED:
-                return map.teamBlueZone.isInBounds(this.currentPosition);
+            case GameEntites.Team.BLUE:
+                return map.teamRedZone.isInBounds(this.position);
+            case GameEntites.Team.RED:
+                return map.teamBlueZone.isInBounds(this.position);
             default:
                 alert("checkWinningCondition - Team not found!");
         }
@@ -93,11 +97,11 @@ class Player {
         return Team.toString(this.team) + " won!";
     }
 
-    private setColor(team: Team.TeamEnum) {
+    private setColor(team: GameEntites.Team) {
         switch (team) {
-            case Team.TeamEnum.RED:
+            case GameEntites.Team.RED:
                 return "red";
-            case Team.TeamEnum.BLUE:
+            case GameEntites.Team.BLUE:
                 return "blue";
             default:
                 alert("Could not find team: " + team);
@@ -105,4 +109,4 @@ class Player {
     }
 
 }
-export = Player;
+export = ClientPlayer;

@@ -32,4 +32,11 @@ namespace SPATest.ServerCode
         public int Height { get; set; }
         public int Width { get; set; }
     }
+
+	[TsEnum]
+	public enum Team
+	{
+		BLUE,
+		RED
+	}
 }

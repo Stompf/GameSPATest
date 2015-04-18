@@ -2,7 +2,7 @@ define(["require", "exports", "./KeyboardStates", "./team"], function (require, 
     var Player = (function () {
         function Player(startPos, keyboardGroup, team, isLocalPlayer) {
             this.speed = 250;
-            this.currentPosition = startPos;
+            this.position = startPos;
             this.team = team;
             this.color = this.setColor(team);
             this.size = Player.StartSize;
@@ -11,10 +11,10 @@ define(["require", "exports", "./KeyboardStates", "./team"], function (require, 
         }
         Player.prototype.draw = function (ctx, deltaTick) {
             ctx.fillStyle = this.color;
-            ctx.fillRect(this.currentPosition.x, this.currentPosition.y, this.size.width, this.size.height);
+            ctx.fillRect(this.position.x, this.position.y, this.size.width, this.size.height);
         };
         Player.prototype.update = function (ctx, map, tickLenght) {
-            var newPosition = this.currentPosition;
+            var newPosition = this.position;
             if (this.isLocalPlayer) {
                 if (this.keyboardStates.isUpKeyDown) {
                     var newPos = {
@@ -53,14 +53,14 @@ define(["require", "exports", "./KeyboardStates", "./team"], function (require, 
                     }
                 }
             }
-            this.currentPosition = newPosition;
+            this.position = newPosition;
         };
         Player.prototype.checkWinningCondition = function (map) {
             switch (this.team) {
-                case 1 /* BLUE */:
-                    return map.teamRedZone.isInBounds(this.currentPosition);
-                case 0 /* RED */:
-                    return map.teamBlueZone.isInBounds(this.currentPosition);
+                case Team.TeamEnum.BLUE:
+                    return map.teamRedZone.isInBounds(this.position);
+                case Team.TeamEnum.RED:
+                    return map.teamBlueZone.isInBounds(this.position);
                 default:
                     alert("checkWinningCondition - Team not found!");
             }
@@ -70,9 +70,9 @@ define(["require", "exports", "./KeyboardStates", "./team"], function (require, 
         };
         Player.prototype.setColor = function (team) {
             switch (team) {
-                case 0 /* RED */:
+                case Team.TeamEnum.RED:
                     return "red";
-                case 1 /* BLUE */:
+                case Team.TeamEnum.BLUE:
                     return "blue";
                 default:
                     alert("Could not find team: " + team);

@@ -1,5 +1,5 @@
 ﻿import ko = require("knockout");
-import Player = require("./player");
+import ClientPlayer = require("./ClientPlayer");
 import Map = require("./map");
 import KeyboardGroup = require("./KeyboardGroup");
 import Rendering = require("./Rendering");
@@ -16,7 +16,7 @@ class Game {
 
     ctx: CanvasRenderingContext2D;
 
-    currentPlayers: KnockoutObservableArray<Player>;
+    currentPlayers: KnockoutObservableArray<ClientPlayer>;
     currentMap: KnockoutObservable<Map>;
     gameOn: KnockoutObservable<boolean>;
 
@@ -31,7 +31,7 @@ class Game {
     private textArea: KnockoutObservable<string>;
 
     constructor(ctx: CanvasRenderingContext2D, textArea: KnockoutObservable<string>) {
-        this.currentPlayers = ko.observableArray<Player>();
+        this.currentPlayers = ko.observableArray<ClientPlayer>();
         this.currentMap = ko.observable<Map>();
         this.gameOn = ko.observable<boolean>();
         this.lastRender = this.lastTick;
@@ -46,12 +46,21 @@ class Game {
         }
     }
 
+	onBlur() {
+		var players = this.currentPlayers();
+		for (var i = 0; i < players.length; i++) {
+            if (players[i].keyboardStates != null) {
+                players[i].keyboardStates.resetAll();
+            }
+        }
+	}
+
     onKeyDown(e: KeyboardEvent) {
         //  console.log("onKeyDown: " + e.keyCode);
 
         var players = this.currentPlayers();
         for (var i = 0; i < players.length; i++) {
-            if (players[i].keyboardStates.keyDown(e.keyCode)) {
+            if (players[i].keyboardStates != null && players[i].keyboardStates.keyDown(e.keyCode)) {
                 break;
             }
         }
@@ -62,7 +71,7 @@ class Game {
 
         var players = this.currentPlayers();
         for (var i = 0; i < players.length; i++) {
-            if (players[i].keyboardStates.keyUp(e.keyCode)) {
+            if (players[i].keyboardStates != null && players[i].keyboardStates.keyUp(e.keyCode)) {
                 break;
             }
         }
@@ -95,6 +104,19 @@ class Game {
 
 	private handleInitGame(initGameEntity: GameEntites.InitGameEntity) {
 		this.appendLine('InitGame recived');
+		this.currentPlayers.removeAll();
+		
+		initGameEntity.players.forEach(player => {
+			var clientPlayer: ClientPlayer;
+			if (player.connectionId === this.connectionID) {
+				clientPlayer = new ClientPlayer(player, KeyboardGroup.WSAD, true);
+			} else {
+				clientPlayer = new ClientPlayer(player, null, false);
+			}
+			this.currentPlayers.push(clientPlayer);
+		});
+		this.initMap();
+		this.main(performance.now());
 		this.myHub.server.sendReady();
 		this.appendLine('SendReady sent');
 	}
@@ -105,7 +127,7 @@ class Game {
 
 		setTimeout(() => {
 			this.appendLine('Game start!');
-			this.initPlayers();
+			this.gameOn(true);
 		}, gameStartInSeconds * 1000);
 	}
 
@@ -169,6 +191,7 @@ class Game {
         this.ctx.canvas.tabIndex = 1000;
         this.ctx.canvas.style.outline = "none";
 
+		window.addEventListener("blur",(e) => { this.onBlur(); }, false);
         window.addEventListener("keydown", (e) => { this.onKeyDown(e); }, false);
         window.addEventListener("keyup", (e) => { this.onKeyUp(e); }, false);
 
@@ -176,10 +199,6 @@ class Game {
 
         });
 
-        this.initMap();
-        this.main(performance.now());
-
-        this.gameOn(true);
         this.appendLine('Canvas init done');
     }
 
@@ -191,13 +210,21 @@ class Game {
         this.currentMap(new Map(size));
     }
 
-    private initPlayers() {
+    private initLocalPlayers() {
         //Player 1
-        var player1 = new Player(this.currentMap().teamBlueStartPosition, KeyboardGroup.WSAD, Team.TeamEnum.BLUE, true);
+		var serverPlayer1 = <SPATest.ServerCode.Player>{
+			team: SPATest.ServerCode.Team.BLUE,
+			position: this.currentMap().teamBlueStartPosition
+		};
+        var player1 = new ClientPlayer(serverPlayer1, KeyboardGroup.WSAD, true);
 
         //Player 2
-        var player2 = new Player(this.currentMap().teamRedStartPosition, KeyboardGroup.Arrows, Team.TeamEnum.RED, true);
-
+		var serverPlayer2 = <SPATest.ServerCode.Player>{
+			team: SPATest.ServerCode.Team.RED,
+			position: this.currentMap().teamRedStartPosition
+		};
+        var player2 = new ClientPlayer(serverPlayer2, KeyboardGroup.Arrows, true);
+		this.initMap();
         this.currentPlayers([player1, player2]);
     }
 

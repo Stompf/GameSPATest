@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using SPATest.Hubs;
+using System.Threading;
 
 namespace SPATest.ServerCode
 {
@@ -45,7 +46,9 @@ namespace SPATest.ServerCode
 					myHub.Groups.Add(player1.ConnectionId, newGame.GroupReference);
 					myHub.Groups.Add(myHub.Context.ConnectionId, newGame.GroupReference);
 					CurrentGames[newGame.GroupReference] = newGame;
-					newGame.StartGame();
+
+					Thread.Sleep(1000);
+                    newGame.InitGame();
 				}
 				else
 				{

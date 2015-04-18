@@ -247,3 +247,16 @@ GameSPATest/bin/SPATest.pdb
 GameSPATest/Scripts/Game/game.js.map
 GameSPATest/Scripts/Game/game.js
 GameSPATest/Scripts/Game/game.js
+GameSPATest/Scripts/Enums.js.map
+GameSPATest/Scripts/Enums.js
+GameSPATest/Scripts/Game/ClientPlayer.js
+GameSPATest/Scripts/Game/ClientPlayer.js.map
+GameSPATest/Scripts/Game/KeyboardStates.js
+GameSPATest/Scripts/Game/KeyboardStates.js.map
+GameSPATest/Scripts/Game/map.js
+GameSPATest/Scripts/Game/map.js.map
+GameSPATest/Scripts/Game/player.js
+GameSPATest/Scripts/Game/player.js.map
+GameSPATest/Scripts/Game/Rendering.js.map
+GameSPATest/Scripts/Game/team.js
+GameSPATest/Scripts/Game/team.js.map

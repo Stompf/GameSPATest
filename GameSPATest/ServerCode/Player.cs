@@ -19,6 +19,10 @@ namespace SPATest.ServerCode
         public Vector2D Position { get; set; }
 		public string Color { get; set; }
 
+		public Team Team { get; set; }
+
+		public static Size StartSize { get { return new Size { Height = 10, Width = 10 }; } }
+
 		public Player(string connectionId)
 		{
 			ConnectionId = connectionId;

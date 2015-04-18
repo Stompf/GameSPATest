@@ -248,7 +248,7 @@
     <TypeScriptCompile Include="Scripts\Game\keyboardGroup.ts" />
     <TypeScriptCompile Include="Scripts\Game\keyboardStates.ts" />
     <TypeScriptCompile Include="Scripts\Game\map.ts" />
-    <TypeScriptCompile Include="Scripts\Game\player.ts" />
+    <TypeScriptCompile Include="Scripts\Game\ClientPlayer.ts" />
     <TypeScriptCompile Include="Scripts\Game\Rendering.ts" />
     <TypeScriptCompile Include="Scripts\Game\team.ts" />
     <TypeScriptCompile Include="Scripts\Game\toastrOptions.ts" />

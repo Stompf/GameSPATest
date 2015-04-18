@@ -9,6 +9,12 @@ define(["require", "exports", "./KeyboardGroup"], function (require, exports, Ke
         KeyboardStates.prototype.keyUp = function (keycode) {
             return this.handleKeycodes(keycode, false);
         };
+        KeyboardStates.prototype.resetAll = function () {
+            this.isUpKeyDown = false;
+            this.isDownKeyDown = false;
+            this.isLeftKeyDown = false;
+            this.isRightKeyDown = false;
+        };
         KeyboardStates.prototype.setKeyboard = function (keyboardGroup) {
             switch (keyboardGroup) {
                 case 1 /* Arrows */:

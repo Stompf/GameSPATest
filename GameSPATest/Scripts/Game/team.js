@@ -1,22 +1,28 @@
 define(["require", "exports"], function (require, exports) {
     var Team;
     (function (Team) {
-        (function (TeamEnum) {
-            TeamEnum[TeamEnum["RED"] = 0] = "RED";
-            TeamEnum[TeamEnum["BLUE"] = 1] = "BLUE";
-        })(Team.TeamEnum || (Team.TeamEnum = {}));
-        var TeamEnum = Team.TeamEnum;
         function toString(team) {
             switch (team) {
-                case 0 /* RED */:
+                case 1 /* RED */:
                     return "Team Red";
-                case 1 /* BLUE */:
+                case 0 /* BLUE */:
                     return "Team Blue";
                 default:
                     return "undefined";
             }
         }
         Team.toString = toString;
+        function serverToGameEntity(team) {
+            switch (team) {
+                case 1 /* RED */:
+                    return 1 /* RED */;
+                case 0 /* BLUE */:
+                    return 0 /* BLUE */;
+                default:
+                    return 1 /* RED */;
+            }
+        }
+        Team.serverToGameEntity = serverToGameEntity;
     })(Team || (Team = {}));
     return Team;
 });
