@@ -25,6 +25,9 @@ class Game {
     lastTick: number = performance.now();
     tickLength: number = 50;
 
+	myHub: MyHub;
+	connectionID: string;
+
     private textArea: KnockoutObservable<string>;
 
     constructor(ctx: CanvasRenderingContext2D, textArea: KnockoutObservable<string>) {
@@ -66,24 +69,44 @@ class Game {
     }
 
 	private searchForGame() {
-		var myHub = $.connection.myHub;
-        myHub.client.newGameStart = (message) => {
-            var gameStartInSeconds = moment.duration(moment(utils.getFormatedDateWithTime(message.startTime)).diff(moment())).asSeconds();
-            toastr.info('Game start in ' + gameStartInSeconds + ' seconds', 'Game');
+		this.myHub = $.connection.myHub;
 
-            setTimeout(() => {
-                this.initPlayers();
-            }, gameStartInSeconds * 1000);
+		this.myHub.client.initGame = (message) => {
+			this.handleInitGame(message);
 		};
-		myHub.client.endGame = (message) => {
-			console.log(message);
+        this.myHub.client.newGameStart = (message) => {
+			this.handleNewGameStart(message);
+		};
+		this.myHub.client.endGame = (message) => {
+			utils.appendNewLine(this.textArea, message);
 			this.currentPlayers.removeAll();
+			window.cancelAnimationFrame(this.stopMain);
+			this.gameOn(false);
+			this.myHub.server.searchForGame();
+            this.appendLine('Searching for game...');
 		};
 
 		$.connection.hub.start().done(() => {
-            myHub.server.searchForGame();
-            utils.appendNewLine(this.textArea, 'Searching for game...');
+			this.connectionID = $.connection.hub.id;
+            this.myHub.server.searchForGame();
+            this.appendLine('Searching for game...');
 		});
+	}
+
+	private handleInitGame(initGameEntity: GameEntites.InitGameEntity) {
+		this.appendLine('InitGame recived');
+		this.myHub.server.sendReady();
+		this.appendLine('SendReady sent');
+	}
+
+	private handleNewGameStart(newGameStartEntity: GameEntites.NewGameStartEntity) {
+		var gameStartInSeconds = moment.duration(moment(utils.getFormatedDateWithTime(newGameStartEntity.startTime)).diff(moment())).asSeconds();
+		this.appendLine('Game start in ' + gameStartInSeconds + ' seconds');
+
+		setTimeout(() => {
+			this.appendLine('Game start!');
+			this.initPlayers();
+		}, gameStartInSeconds * 1000);
 	}
 
     private main = (tFrame: number) => {
@@ -157,7 +180,7 @@ class Game {
         this.main(performance.now());
 
         this.gameOn(true);
-        utils.appendNewLine(this.textArea, 'Canvas init done');
+        this.appendLine('Canvas init done');
     }
 
     private initMap() {
@@ -177,5 +200,9 @@ class Game {
 
         this.currentPlayers([player1, player2]);
     }
+
+	private appendLine(message: string) {
+		utils.appendNewLine(this.textArea, message);
+	}
 }
 export = Game;

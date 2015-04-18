@@ -12,7 +12,14 @@ namespace SPATest.ServerCode
         public DateTime StartTime { get; set; }
     }
 
-    [TsClass]
+	[TsClass]
+	public class InitGameEntity
+	{
+		public Map Map { get; set; }
+		public Player[] Players { get; set; }
+	}
+
+	[TsClass]
     public class Vector2D
     {
         public int X { get; set; }

@@ -13,20 +13,24 @@ namespace SPATest.ServerCode
 		public static Matchmaking Instance { get { return lazy.Value; } }
 
 		public Dictionary<string, Player> CurrentPlayers { get; }
-		private Object playersObject = new Object();
+		private Object playersLockObject = new Object();
+
+		public Dictionary<string, Game> CurrentGames { get; }
+		private Object gamesLockObject = new Object();
 
 		public HashSet<string> LookingForGame { get; }
-		private Object lookingForGameLock = new Object();
+		private Object lookingForGameLockObject = new Object();
 
 		private Matchmaking()
 		{
 			CurrentPlayers = new Dictionary<string, Player>();
 			LookingForGame = new HashSet<string>();
-		}
+			CurrentGames = new Dictionary<string, Game>();
+        }
 
 		public void SearchForGame(MyHub myHub)
 		{
-			lock (lookingForGameLock)
+			lock (lookingForGameLockObject)
 			{
 				if (LookingForGame.Any() && LookingForGame.First() != myHub.Context.ConnectionId)
 				{
@@ -40,6 +44,7 @@ namespace SPATest.ServerCode
 					var newGame = new Game(player1, player2, myHub);
 					myHub.Groups.Add(player1.ConnectionId, newGame.GroupReference);
 					myHub.Groups.Add(myHub.Context.ConnectionId, newGame.GroupReference);
+					CurrentGames[newGame.GroupReference] = newGame;
 					newGame.StartGame();
 				}
 				else
@@ -49,9 +54,28 @@ namespace SPATest.ServerCode
 			}
 		}
 
+		public void ReadyRecived(string connectionID)
+		{
+			lock(playersLockObject)
+			{
+				var player = CurrentPlayers[connectionID];
+				if (player != null)
+				{
+					lock(gamesLockObject)
+					{
+						var game = CurrentGames[player.GameGroupID];
+						if (game != null)
+						{
+							game.ReadyRecived(player);
+						}
+					}
+				}
+			}
+		}
+
 		public void OnDisconnect(MyHub myHub)
 		{
-			lock (lookingForGameLock)
+			lock (lookingForGameLockObject)
 			{
 				if (LookingForGame.Contains(myHub.Context.ConnectionId))
 				{
@@ -59,27 +83,29 @@ namespace SPATest.ServerCode
 				}
 			}
 
-			lock (playersObject)
+			lock (playersLockObject)
 			{
 				if (CurrentPlayers.ContainsKey(myHub.Context.ConnectionId))
 				{
-					var game = CurrentPlayers[myHub.Context.ConnectionId].currentGame;
-					if (game != null)
+					lock (gamesLockObject)
 					{
-						game.EndGame(myHub);
-
-						Player playerBackInQueue;
-						if (game.player1.ConnectionId == myHub.Context.ConnectionId)
+						var game = CurrentGames[CurrentPlayers[myHub.Context.ConnectionId].GameGroupID];
+						if (game != null)
 						{
-							playerBackInQueue = game.player2;
+							game.EndGame(myHub);
+							if (game.player1.ConnectionId == myHub.Context.ConnectionId)
+							{
+								CurrentPlayers.Remove(game.player2.ConnectionId);
+							}
+							else
+							{
+								CurrentPlayers.Remove(game.player1.ConnectionId);
+							}
 						}
-						else
-						{
-							playerBackInQueue = game.player1;
-						}
-						LookingForGame.Add(playerBackInQueue.ConnectionId);
-					}
-				}
+						CurrentGames.Remove(game.GroupReference);
+                    }
+					CurrentPlayers.Remove(myHub.Context.ConnectionId);
+                }
 			}
 		}
 	}

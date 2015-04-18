@@ -176,8 +176,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerCode\Game.cs" />
     <Compile Include="ServerCode\GameEntities.cs" />
+    <Compile Include="ServerCode\Map.cs" />
     <Compile Include="ServerCode\Matchmaking.cs" />
     <Compile Include="ServerCode\Player.cs" />
+    <Compile Include="SignalRContractResolver.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

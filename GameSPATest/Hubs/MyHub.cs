@@ -14,6 +14,11 @@ namespace SPATest.Hubs
 			Matchmaking.Instance.SearchForGame(this);
         }
 
+		public void SendReady()
+		{
+			Matchmaking.Instance.ReadyRecived(Context.ConnectionId);
+		}
+
 		public override Task OnConnected()
 		{
 			return base.OnConnected();
