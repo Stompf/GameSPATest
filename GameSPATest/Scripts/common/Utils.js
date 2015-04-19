@@ -9,7 +9,7 @@ define(["require", "exports", 'moment'], function (require, exports, moment) {
             if (includeTimeStamp === void 0) { includeTimeStamp = true; }
             if (includeTimeStamp) {
                 newLine = (moment().format('HH:mm:ss') + ' - ' + newLine);
-                koString(newLine + '\n' + koString());
+                koString(newLine + '<br>' + koString());
             }
         }
         Utils.appendNewLine = appendNewLine;

@@ -109,7 +109,9 @@ class Game {
 		initGameEntity.players.forEach(player => {
 			var clientPlayer: ClientPlayer;
 			if (player.connectionId === this.connectionID) {
+				
 				clientPlayer = new ClientPlayer(player, KeyboardGroup.WSAD, true);
+				this.appendLine('YOU ARE: <b><span style="color:' + clientPlayer.color + '">' + clientPlayer.color.toUpperCase() + '</span></b>');
 			} else {
 				clientPlayer = new ClientPlayer(player, null, false);
 			}
