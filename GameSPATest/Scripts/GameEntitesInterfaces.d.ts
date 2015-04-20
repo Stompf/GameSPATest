@@ -34,6 +34,14 @@ declare module SPATest.ServerCode {
 		team: SPATest.ServerCode.Team;
 		startSize: SPATest.ServerCode.Size;
 	}
+	interface UpdateGameEntity {
+		map: SPATest.ServerCode.Map;
+		players: SPATest.ServerCode.Player[];
+	}
+	interface SendUpdateGameEntity {
+		player: SPATest.ServerCode.Player;
+		frame: number;
+	}
 }
 
 

@@ -16,6 +16,7 @@ class Game {
 
     ctx: CanvasRenderingContext2D;
 
+	currentLocalPlayers: KnockoutObservableArray<ClientPlayer>;
     currentPlayers: KnockoutObservableArray<ClientPlayer>;
     currentMap: KnockoutObservable<Map>;
     gameOn: KnockoutObservable<boolean>;
@@ -31,6 +32,7 @@ class Game {
     private textArea: KnockoutObservable<string>;
 
     constructor(ctx: CanvasRenderingContext2D, textArea: KnockoutObservable<string>) {
+		this.currentLocalPlayers = ko.observableArray<ClientPlayer>();
         this.currentPlayers = ko.observableArray<ClientPlayer>();
         this.currentMap = ko.observable<Map>();
         this.gameOn = ko.observable<boolean>();
@@ -94,6 +96,13 @@ class Game {
 			this.myHub.server.searchForGame();
             this.appendLine('Searching for game...');
 		};
+		this.myHub.client.updateGame = (message) => {
+			this.handleServerUpdate(message);
+		};
+
+		$.connection.hub.error((error) => {
+			console.error('SignalR error: ' + error)
+		});
 
 		$.connection.hub.start().done(() => {
 			this.connectionID = $.connection.hub.id;
@@ -108,10 +117,10 @@ class Game {
 		
 		initGameEntity.players.forEach(player => {
 			var clientPlayer: ClientPlayer;
-			if (player.connectionId === this.connectionID) {
-				
+			if (player.connectionId === this.connectionID) {				
 				clientPlayer = new ClientPlayer(player, KeyboardGroup.WSAD, true);
 				this.appendLine('YOU ARE: <b><span style="color:' + clientPlayer.color + '">' + clientPlayer.color.toUpperCase() + '</span></b>');
+				this.currentLocalPlayers([clientPlayer]);
 			} else {
 				clientPlayer = new ClientPlayer(player, null, false);
 			}
@@ -133,6 +142,28 @@ class Game {
 		}, gameStartInSeconds * 1000);
 	}
 
+	private handleServerUpdate(updateGameEntity: GameEntites.UpdateGameEntity) {
+		if (updateGameEntity == null) {
+			this.appendLine('<b><span style="color: red">ERROR - UpdateGameEntity was null!</span></b>');
+			return;
+		}
+
+		updateGameEntity.players.forEach(player => {
+			var playerWithId = this.currentPlayers().filter(currPlayer => {
+				return currPlayer.connectionId === player.connectionId;
+			});
+			if (playerWithId.length > 0) {
+				playerWithId[0].position = player.position;
+			}
+
+			if (playerWithId.length > 1) {
+				for (var i = 1; i < playerWithId.length; i++) {
+					this.currentPlayers.remove(playerWithId[i]);
+				}
+			}
+		});
+	}
+
     private main = (tFrame: number) => {
         this.stopMain = window.requestAnimationFrame(this.main);
         var nextTick = this.lastTick + this.tickLength;
@@ -146,6 +177,15 @@ class Game {
         this.queueUpdates(numTicks);
         this.redrawCanvas(tFrame);
         this.lastRender = tFrame;
+
+		this.currentLocalPlayers().forEach(localPlayer => {
+			this.myHub.server.sendUpdate(< GameEntites.SendUpdateGameEntity > {
+				player: localPlayer,
+				frame: tFrame
+			}).fail(error => {
+				var t = error;
+			});
+		});
     }
 
     private queueUpdates(numTicks: number) {

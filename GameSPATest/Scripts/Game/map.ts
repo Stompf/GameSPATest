@@ -50,7 +50,7 @@ class Map {
 
     private initStartPositions() {
         this.teamBlueStartPosition = <GameEntites.Vector2D> { x: this.size.width - this.startPositionPadding, y: this.size.height / 2 };
-        this.teamRedStartPosition = <GameEntites.Vector2D> { x: this.startPositionPadding - ClientPlayer.StartSize.width, y: this.size.height / 2 }; 
+        this.teamRedStartPosition = <GameEntites.Vector2D> { x: this.startPositionPadding - 10, y: this.size.height / 2 }; 
     }
 
     private initZones() {

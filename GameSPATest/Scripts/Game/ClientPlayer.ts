@@ -3,13 +3,13 @@ import KeyboardGroup = require("./KeyboardGroup");
 import Map = require("./map");
 import Team = require("./team");
 
-class ClientPlayer {
+class ClientPlayer implements SPATest.ServerCode.Player {
 
-    static StartSize;
+    startSize: GameEntites.Size;
 
     position: GameEntites.Vector2D;
     color: string;
-    team: GameEntites.Team;
+    team: SPATest.ServerCode.Team;
     size: GameEntites.Size;
     keyboardStates: KeyboardStates;
 	connectionId: string;
@@ -17,13 +17,14 @@ class ClientPlayer {
     isLocalPlayer: boolean;
     speed: number = 250;
 
-    constructor(serverPlayer: GameEntites.Player, keyboardGroup: KeyboardGroup, isLocalPlayer: boolean) {
+    constructor(serverPlayer: SPATest.ServerCode.Player, keyboardGroup: KeyboardGroup, isLocalPlayer: boolean) {
         this.position = serverPlayer.position;
-        this.team = Team.serverToGameEntity(serverPlayer.team);
+        this.team = serverPlayer.team;
         this.color = this.setColor(this.team);       
         this.isLocalPlayer = isLocalPlayer;
-		serverPlayer.startSize ? ClientPlayer.StartSize = serverPlayer.startSize : ClientPlayer.StartSize = <GameEntites.Size> { height: 10, width: 10 };
-		this.size = ClientPlayer.StartSize;
+		this.connectionId = serverPlayer.connectionId;
+		serverPlayer.startSize ? this.startSize = serverPlayer.startSize : this.startSize = <GameEntites.Size> { height: 10, width: 10 };
+		this.size = this.startSize;
 
 		if (keyboardGroup != null && isLocalPlayer) {
 			this.keyboardStates = new KeyboardStates(keyboardGroup);
@@ -84,9 +85,9 @@ class ClientPlayer {
 
     checkWinningCondition(map: Map) {
         switch (this.team) {
-            case GameEntites.Team.BLUE:
+            case SPATest.ServerCode.Team.BLUE:
                 return map.teamRedZone.isInBounds(this.position);
-            case GameEntites.Team.RED:
+            case SPATest.ServerCode.Team.RED:
                 return map.teamBlueZone.isInBounds(this.position);
             default:
                 alert("checkWinningCondition - Team not found!");
@@ -97,11 +98,11 @@ class ClientPlayer {
         return Team.toString(this.team) + " won!";
     }
 
-    private setColor(team: GameEntites.Team) {
+    private setColor(team: SPATest.ServerCode.Team) {
         switch (team) {
-            case GameEntites.Team.RED:
+            case SPATest.ServerCode.Team.RED:
                 return "red";
-            case GameEntites.Team.BLUE:
+            case SPATest.ServerCode.Team.BLUE:
                 return "blue";
             default:
                 alert("Could not find team: " + team);

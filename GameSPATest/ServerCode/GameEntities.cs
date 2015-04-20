@@ -19,6 +19,22 @@ namespace SPATest.ServerCode
 		public Player[] Players { get; set; }
 	}
 
+
+	[TsClass]
+	public class UpdateGameEntity
+	{
+		public Map Map { get; set; }
+		public Player[] Players { get; set; }
+	}
+
+	[TsClass]
+	public class SendUpdateGameEntity
+	{
+		public Player Player { get; set; }
+		
+		public float Frame { get; set; }
+	}
+
 	[TsClass]
     public class Vector2D
     {

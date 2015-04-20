@@ -1,5 +1,7 @@
 ﻿using System;
 using SPATest.Hubs;
+using System.Timers;
+using System.Threading;
 
 namespace SPATest.ServerCode
 {
@@ -12,6 +14,8 @@ namespace SPATest.ServerCode
 
 		public Player player1 { get; }
 		public Player player2 { get; }
+
+		private System.Timers.Timer timer;
 
 		public Game(Player player1, Player player2, MyHub myHub)
 		{
@@ -49,14 +53,59 @@ namespace SPATest.ServerCode
 
 		public void StartGame()
 		{
+			if (timer != null)
+			{
+				timer.Dispose();
+			}
+
+			timer = new System.Timers.Timer(66);
+			timer.Elapsed += new ElapsedEventHandler(SendUpdate);
 			GroupManager.newGameStart(new NewGameStartEntity() { StartTime = DateTime.Now.AddSeconds(5) });
+			Thread.Sleep(5000);		
+			timer.Enabled = true; // Enable it
 		}
 
 		public void EndGame(MyHub myHub)
 		{
+			if (timer != null)
+			{
+				timer.Dispose();
+			}
+
 			GroupManager.endGame("end - " + GroupReference);
 			myHub.Groups.Remove(player1.ConnectionId, GroupReference);
 			myHub.Groups.Remove(player2.ConnectionId, GroupReference);
+		}
+
+		public void SendUpdate(object sender, ElapsedEventArgs e)
+		{
+			var updateEntity = new UpdateGameEntity { Map = CurrentMap, Players = new Player[] { player1, player2 } };
+			GroupManager.updateGame(updateEntity);
+        }
+
+		public void UpdateRecived(string connectionID, SendUpdateGameEntity entity)
+		{
+			var player = GetPlayer(connectionID);
+			if (player != null)
+			{
+				player.Position = entity.Player.Position;
+			}
+		}
+
+		public Player GetPlayer(string connectionID)
+		{
+			if (player1.ConnectionId == connectionID)
+			{
+				return player1;
+			}
+			else if (player2.ConnectionId == connectionID)
+			{
+				return player2;
+			}
+			else
+			{
+				return null;
+			}
 		}
 	}
 }
