@@ -8,7 +8,7 @@ module Utils {
     export function appendNewLine(koString: KnockoutObservable<string>, newLine: string, includeTimeStamp: boolean = true) {
         if (includeTimeStamp) {
             newLine = (moment().format('HH:mm:ss') + ' - ' + newLine);
-            koString(newLine + '\n' + koString());
+            koString(newLine + '<br>' + koString());
         }
     }
 

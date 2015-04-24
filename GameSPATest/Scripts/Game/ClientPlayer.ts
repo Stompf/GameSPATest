@@ -3,36 +3,41 @@ import KeyboardGroup = require("./KeyboardGroup");
 import Map = require("./map");
 import Team = require("./team");
 
-class Player {
+class ClientPlayer implements SPATest.ServerCode.Player {
 
-    static StartSize = <GameEntites.Size> { height: 10, width: 10 };
+    startSize: GameEntites.Size;
 
-    currentPosition: GameEntites.Vector2D;
+    position: GameEntites.Vector2D;
     color: string;
-    team: Team.TeamEnum;
+    team: SPATest.ServerCode.Team;
     size: GameEntites.Size;
     keyboardStates: KeyboardStates;
+	connectionId: string;
 
     isLocalPlayer: boolean;
     speed: number = 250;
 
-    constructor(startPos: GameEntites.Vector2D, keyboardGroup: KeyboardGroup, team: Team.TeamEnum, isLocalPlayer: boolean) {
-        this.currentPosition = startPos;
-        this.team = team;
-        this.color = this.setColor(team);
-        this.size = Player.StartSize;
+    constructor(serverPlayer: SPATest.ServerCode.Player, keyboardGroup: KeyboardGroup, isLocalPlayer: boolean) {
+        this.position = serverPlayer.position;
+        this.team = serverPlayer.team;
+        this.color = this.setColor(this.team);       
         this.isLocalPlayer = isLocalPlayer;
+		this.connectionId = serverPlayer.connectionId;
+		serverPlayer.startSize ? this.startSize = serverPlayer.startSize : this.startSize = <GameEntites.Size> { height: 10, width: 10 };
+		this.size = this.startSize;
 
-        this.keyboardStates = new KeyboardStates(keyboardGroup);
+		if (keyboardGroup != null && isLocalPlayer) {
+			this.keyboardStates = new KeyboardStates(keyboardGroup);
+		}       
     }
 
     draw(ctx: CanvasRenderingContext2D, deltaTick: number) {
         ctx.fillStyle = this.color;
-        ctx.fillRect(this.currentPosition.x, this.currentPosition.y, this.size.width, this.size.height);
+        ctx.fillRect(this.position.x, this.position.y, this.size.width, this.size.height);
     }
 
     update(ctx: CanvasRenderingContext2D, map: Map, tickLenght: number) {
-        var newPosition = this.currentPosition;
+        var newPosition = this.position;
 
         if (this.isLocalPlayer) {
             if (this.keyboardStates.isUpKeyDown) {
@@ -75,15 +80,15 @@ class Player {
                 }
             }
         }
-        this.currentPosition = newPosition;
+        this.position = newPosition;
     }
 
     checkWinningCondition(map: Map) {
         switch (this.team) {
-            case Team.TeamEnum.BLUE:
-                return map.teamRedZone.isInBounds(this.currentPosition);
-            case Team.TeamEnum.RED:
-                return map.teamBlueZone.isInBounds(this.currentPosition);
+            case SPATest.ServerCode.Team.BLUE:
+                return map.teamRedZone.isInBounds(this.position);
+            case SPATest.ServerCode.Team.RED:
+                return map.teamBlueZone.isInBounds(this.position);
             default:
                 alert("checkWinningCondition - Team not found!");
         }
@@ -93,11 +98,11 @@ class Player {
         return Team.toString(this.team) + " won!";
     }
 
-    private setColor(team: Team.TeamEnum) {
+    private setColor(team: SPATest.ServerCode.Team) {
         switch (team) {
-            case Team.TeamEnum.RED:
+            case SPATest.ServerCode.Team.RED:
                 return "red";
-            case Team.TeamEnum.BLUE:
+            case SPATest.ServerCode.Team.BLUE:
                 return "blue";
             default:
                 alert("Could not find team: " + team);
@@ -105,4 +110,4 @@ class Player {
     }
 
 }
-export = Player;
+export = ClientPlayer;

@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
 using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
+using Microsoft.AspNet.SignalR;
 
 namespace SPATest
 {
@@ -22,6 +24,11 @@ namespace SPATest
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-        }
+
+			var settings = new JsonSerializerSettings();
+			settings.ContractResolver = new SignalRContractResolver();
+			var serializer = JsonSerializer.Create(settings);
+			GlobalHost.DependencyResolver.Register(typeof(JsonSerializer), () => serializer);
+		}
     }
 }
