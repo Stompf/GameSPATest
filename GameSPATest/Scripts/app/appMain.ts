@@ -3,8 +3,6 @@ import $ = require('jquery');
 import AppComponent = require('./appComponent');
 
 class AppMain {
-
-    text: KnockoutObservable<string>;
     appComponents: KnockoutObservableArray<AppComponent>;
     selectedAppComponent: KnockoutObservable<AppComponent>;
     baseUrl: string;
@@ -15,8 +13,6 @@ class AppMain {
         this.selectedAppComponent.subscribe(selectedComp => {
             this.handleSelectedAppComponentChanged(selectedComp);
         });
-
-        this.text = ko.observable('hej');
     }
 
     activate() {

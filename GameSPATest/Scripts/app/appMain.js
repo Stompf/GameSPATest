@@ -7,7 +7,6 @@ define(["require", "exports", 'knockout', 'jquery', './appComponent'], function 
             this.selectedAppComponent.subscribe(function (selectedComp) {
                 _this.handleSelectedAppComponentChanged(selectedComp);
             });
-            this.text = ko.observable('hej');
         }
         AppMain.prototype.activate = function () {
             ko.applyBindings(this);
