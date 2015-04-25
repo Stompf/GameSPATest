@@ -9,12 +9,7 @@
         'signalr.hubs': '/signalr/hubs?'
     },
     shim: {
-        "jquery": { exports: "$" },
-        "signalr.core": {
-            deps: ["jquery"],
-            exports: "$.connection"
-        },
-        "signalr.hubs": { deps: ["signalr.core"] }
+        "jquery": { exports: "$" }
     }
 }); 
 
