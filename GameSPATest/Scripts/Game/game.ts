@@ -186,6 +186,19 @@ class Game {
         this.queueUpdates(numTicks);
         this.redrawCanvas(tFrame);
         this.lastRender = tFrame;
+
+        this.currentLocalPlayers().forEach(localPlayer => {
+            var updateObj = < GameEntites.SendUpdateGameEntity > {
+                player: localPlayer,
+                frame: tFrame
+            };
+
+            this.myHub.server.sendUpdate(updateObj).done(() => {
+                this.networkHandler.addUpdate(updateObj);
+            }).fail(error => {
+                this.appendLine('<b> <span style="color: red"> ERROR - SendUpdateGameEntity failed!</span></b> - ' + error);
+            });
+        });
     }
 
     private queueUpdates(numTicks: number) {
@@ -223,18 +236,7 @@ class Game {
             }*/
         }
 
-        this.currentLocalPlayers().forEach(localPlayer => {
-            var updateObj = < GameEntites.SendUpdateGameEntity > {
-                player: localPlayer,
-                frame: lastTick
-            };
-
-            this.myHub.server.sendUpdate(updateObj).done(() => {
-                this.networkHandler.addUpdate(updateObj);
-            }).fail(error => {
-                this.appendLine('<b> <span style="color: red"> ERROR - SendUpdateGameEntity failed!</span></b> - ' + error);
-            });
-        });
+        
     }
 
     private redrawCanvas(tFrame: number) {

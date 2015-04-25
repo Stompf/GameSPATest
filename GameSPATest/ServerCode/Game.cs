@@ -16,6 +16,7 @@ namespace SPATest.ServerCode
 		public Player player2 { get; }
 
 		private System.Timers.Timer timer;
+        private object updateLock = new object();
 
 		public Game(Player player1, Player player2, MyHub myHub)
 		{
@@ -77,23 +78,29 @@ namespace SPATest.ServerCode
 			myHub.Groups.Remove(player2.ConnectionId, GroupReference);
 		}
 
-		public void SendUpdate(object sender, ElapsedEventArgs e)
-		{
-			var updateEntity = new UpdateGameEntity { Map = CurrentMap, Players = new Player[] { player1, player2 } };
-			GroupManager.updateGame(updateEntity);
+        public void SendUpdate(object sender, ElapsedEventArgs e)
+        {
+            lock (updateLock)
+            {
+                var updateEntity = new UpdateGameEntity { Map = CurrentMap, Players = new Player[] { player1, player2 } };
+                GroupManager.updateGame(updateEntity);
+            }
         }
 
-		public void UpdateRecived(string connectionID, SendUpdateGameEntity entity)
-		{
-			var player = GetPlayer(connectionID);
-			if (player != null && entity.Frame > player.LatestFrameUpdate)
-			{
-				player.Position = entity.Player.Position;
-                player.LatestFrameUpdate = entity.Frame;
-			}
-		}
+        public void UpdateRecived(string connectionID, SendUpdateGameEntity entity)
+        {
+            var player = GetPlayer(connectionID);
+            if (player != null && entity.Frame > player.LatestFrameUpdate)
+            {
+                lock (updateLock)
+                {
+                    player.Position = entity.Player.Position;
+                    player.LatestFrameUpdate = entity.Frame;
+                }
+            }
+        }
 
-		public Player GetPlayer(string connectionID)
+        public Player GetPlayer(string connectionID)
 		{
 			if (player1.ConnectionId == connectionID)
 			{
