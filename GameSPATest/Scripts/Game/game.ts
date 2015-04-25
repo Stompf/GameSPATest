@@ -161,14 +161,8 @@ class Game {
                 return localPlayer.connectionId === player.connectionId;
             });
 
-            if (playerWithId.length > 0 && (!isLocalPlayer || !this.networkHandler.checkUpdateFromServer(player))) {
+            if (playerWithId.length > 0 && ((!isLocalPlayer && playerWithId[0].latestFrameUpdate < player.latestFrameUpdate) || !this.networkHandler.checkUpdateFromServer(player))) {
 				playerWithId[0].position = player.position;
-			}
-
-			if (playerWithId.length > 1) {
-				for (var i = 1; i < playerWithId.length; i++) {
-					this.currentPlayers.remove(playerWithId[i]);
-				}
 			}
 		});
 	}
