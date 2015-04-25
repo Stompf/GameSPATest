@@ -8,6 +8,7 @@ import toastr = require("toastr");
 import $ = require('jquery');
 import utils = require('../common/Utils');
 import moment = require('moment');
+import NetworkHandler = require('./NetworkHandler');
 
 class Game {
 
@@ -17,6 +18,7 @@ class Game {
     currentPlayers: KnockoutObservableArray<ClientPlayer>;
     currentMap: KnockoutObservable<Map>;
     gameOn: KnockoutObservable<boolean>;
+    networkHandler: NetworkHandler;
 
     stopMain: number;
     lastRender: number;
@@ -55,9 +57,11 @@ class Game {
 	}
 
     onKeyDown(e: KeyboardEvent) {
-        //  console.log("onKeyDown: " + e.keyCode);
+        if (!this.gameOn()) {
+            return;
+        }
 
-        var players = this.currentPlayers();
+        var players = this.currentLocalPlayers();
         for (var i = 0; i < players.length; i++) {
             if (players[i].keyboardStates != null && players[i].keyboardStates.keyDown(e.keyCode)) {
                 break;
@@ -66,9 +70,11 @@ class Game {
     }
 
     onKeyUp(e: KeyboardEvent) {
-        //console.log("onKeyUp: " + e.keyCode);
+        if (!this.gameOn()) {
+            return;
+        }
 
-        var players = this.currentPlayers();
+        var players = this.currentLocalPlayers();
         for (var i = 0; i < players.length; i++) {
             if (players[i].keyboardStates != null && players[i].keyboardStates.keyUp(e.keyCode)) {
                 break;
@@ -110,8 +116,9 @@ class Game {
 
 	private handleInitGame(initGameEntity: GameEntites.InitGameEntity) {
 		this.appendLine('InitGame recived');
-		this.currentPlayers.removeAll();
-		
+        this.currentPlayers.removeAll();
+        this.networkHandler = new NetworkHandler();
+
 		initGameEntity.players.forEach(player => {
 			var clientPlayer: ClientPlayer;
 			if (player.connectionId === this.connectionID) {				
@@ -148,8 +155,13 @@ class Game {
 		updateGameEntity.players.forEach(player => {
 			var playerWithId = this.currentPlayers().filter(currPlayer => {
 				return currPlayer.connectionId === player.connectionId;
-			});
-			if (playerWithId.length > 0) {
+            });
+
+            var isLocalPlayer = this.currentLocalPlayers().some(localPlayer => {
+                return localPlayer.connectionId === player.connectionId;
+            });
+
+            if (playerWithId.length > 0 && (!isLocalPlayer || !this.networkHandler.checkUpdateFromServer(player))) {
 				playerWithId[0].position = player.position;
 			}
 
@@ -174,21 +186,12 @@ class Game {
         this.queueUpdates(numTicks);
         this.redrawCanvas(tFrame);
         this.lastRender = tFrame;
-
-		this.currentLocalPlayers().forEach(localPlayer => {
-			this.myHub.server.sendUpdate(< GameEntites.SendUpdateGameEntity > {
-				player: localPlayer,
-				frame: tFrame
-			}).fail(error => {
-				var t = error;
-			});
-		});
     }
 
     private queueUpdates(numTicks: number) {
         for (var i = 0; i < numTicks; i++) {
             this.lastTick = this.lastTick + this.tickLength;
-            this.update(this.lastTick);
+            this.update(Math.floor(this.lastTick));
         }
     }
 
@@ -197,11 +200,11 @@ class Game {
             return;
         }
 
-        var localPlayers = this.currentPlayers();
+        var players = this.currentPlayers();
         var map = this.currentMap();
 
-        for (var i = 0; i < localPlayers.length; i++) {
-            localPlayers[i].update(this.ctx, map, this.tickLength);
+        for (var i = 0; i < players.length; i++) {
+            players[i].update(this.ctx, map, this.tickLength);
            
             
             /*var victory = localPlayers[i].checkWinningCondition(map);
@@ -219,6 +222,19 @@ class Game {
                 break;
             }*/
         }
+
+        this.currentLocalPlayers().forEach(localPlayer => {
+            var updateObj = < GameEntites.SendUpdateGameEntity > {
+                player: localPlayer,
+                frame: lastTick
+            };
+
+            this.myHub.server.sendUpdate(updateObj).done(() => {
+                this.networkHandler.addUpdate(updateObj);
+            }).fail(error => {
+                this.appendLine('<b> <span style="color: red"> ERROR - SendUpdateGameEntity failed!</span></b> - ' + error);
+            });
+        });
     }
 
     private redrawCanvas(tFrame: number) {
@@ -265,6 +281,7 @@ class Game {
         var player2 = new ClientPlayer(serverPlayer2, KeyboardGroup.Arrows, true);
 		this.initMap();
         this.currentPlayers([player1, player2]);
+        this.currentLocalPlayers(this.currentPlayers());
     }
 
 	private appendLine(message: string) {

@@ -242,6 +242,7 @@
     <Content Include="Views\Home\Chat.cshtml" />
     <Content Include="Views\View\Game.cshtml" />
     <Content Include="Scripts\Manager.ttinclude" />
+    <TypeScriptCompile Include="Scripts\collections.ts" />
     <TypeScriptCompile Include="Scripts\common\Utils.ts" />
     <TypeScriptCompile Include="Scripts\Enums.ts">
       <DependentUpon>GameEntitesInterfaces.tt</DependentUpon>
@@ -252,6 +253,7 @@
     <TypeScriptCompile Include="Scripts\Game\keyboardStates.ts" />
     <TypeScriptCompile Include="Scripts\Game\map.ts" />
     <TypeScriptCompile Include="Scripts\Game\ClientPlayer.ts" />
+    <TypeScriptCompile Include="Scripts\Game\NetworkHandler.ts" />
     <TypeScriptCompile Include="Scripts\Game\Rendering.ts" />
     <TypeScriptCompile Include="Scripts\Game\team.ts" />
     <TypeScriptCompile Include="Scripts\Game\toastrOptions.ts" />

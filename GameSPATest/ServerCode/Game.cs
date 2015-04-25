@@ -86,9 +86,10 @@ namespace SPATest.ServerCode
 		public void UpdateRecived(string connectionID, SendUpdateGameEntity entity)
 		{
 			var player = GetPlayer(connectionID);
-			if (player != null)
+			if (player != null && entity.Frame > player.LatestFrameUpdate)
 			{
 				player.Position = entity.Player.Position;
+                player.LatestFrameUpdate = entity.Frame;
 			}
 		}
 

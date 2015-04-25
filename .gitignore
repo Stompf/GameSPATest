@@ -262,3 +262,9 @@ GameSPATest/Scripts/Game/team.js
 GameSPATest/Scripts/Game/team.js.map
 GameSPATest/Scripts/common/Utils.js.map
 GameSPATest/Scripts/common/Utils.js
+GameSPATest/Scripts/collections.js
+GameSPATest/Scripts/collections.js.map
+GameSPATest/Scripts/Game/NetworkHandler.js
+GameSPATest/Scripts/Game/NetworkHandler.js.map
+GameSPATest/Scripts/require.config.js
+GameSPATest/Scripts/require.config.js.map

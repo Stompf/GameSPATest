@@ -2,6 +2,7 @@
 import KeyboardGroup = require("./KeyboardGroup");
 import Map = require("./map");
 import Team = require("./team");
+import collection = require('collections');
 
 class ClientPlayer implements SPATest.ServerCode.Player {
 
@@ -15,6 +16,7 @@ class ClientPlayer implements SPATest.ServerCode.Player {
 	connectionId: string;
 
     isLocalPlayer: boolean;
+    latestFrameUpdate: number;
     speed: number = 250;
 
     constructor(serverPlayer: SPATest.ServerCode.Player, keyboardGroup: KeyboardGroup, isLocalPlayer: boolean) {
@@ -24,7 +26,8 @@ class ClientPlayer implements SPATest.ServerCode.Player {
         this.isLocalPlayer = isLocalPlayer;
 		this.connectionId = serverPlayer.connectionId;
 		serverPlayer.startSize ? this.startSize = serverPlayer.startSize : this.startSize = <GameEntites.Size> { height: 10, width: 10 };
-		this.size = this.startSize;
+        this.size = this.startSize;
+        this.latestFrameUpdate = 0;
 
 		if (keyboardGroup != null && isLocalPlayer) {
 			this.keyboardStates = new KeyboardStates(keyboardGroup);

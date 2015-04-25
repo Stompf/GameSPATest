@@ -33,6 +33,7 @@ declare module SPATest.ServerCode {
 		color: string;
 		team: SPATest.ServerCode.Team;
 		startSize: SPATest.ServerCode.Size;
+		latestFrameUpdate: number;
 	}
 	interface UpdateGameEntity {
 		map: SPATest.ServerCode.Map;
